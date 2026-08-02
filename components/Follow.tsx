@@ -1,0 +1,24 @@
+import { Instagram, Music2 } from "lucide-react";
+
+export default function Follow() {
+  return (
+    <section className="section shell">
+      <div className="section-title">
+        <div><span className="eyebrow">FOLLOW</span><h2>Stay connected</h2></div>
+        <p>Event drops, behind-the-scenes moments and new content.</p>
+      </div>
+      <div className="link-grid">
+        <a className="feature-link" href="https://instagram.com/djnashd" target="_blank">
+          <Instagram size={24} />
+          <div><strong>Instagram</strong><span>@djnashd</span></div>
+          <span>↗</span>
+        </a>
+        <a className="feature-link" href="https://www.tiktok.com/" target="_blank">
+          <Music2 size={24} />
+          <div><strong>TikTok</strong><span>Short-form sets and moments</span></div>
+          <span>↗</span>
+        </a>
+      </div>
+    </section>
+  );
+}
