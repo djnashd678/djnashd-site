@@ -2,8 +2,39 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "NASH.D — Events, Guestlists & Music",
-  description: "Upcoming NASH.D shows, guestlists, tickets, mixes and playlists."
+  metadataBase: new URL("https://djnashd.com"),
+  title: {
+    default: "NASH.D | Singapore DJ & Performing Artist",
+    template: "%s | NASH.D"
+  },
+  description:
+    "Official website of NASH.D, a Singapore-based DJ and performing artist. Explore event information, DJ mixes and playlists.",
+  alternates: {
+    canonical: "/"
+  },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: "NASH.D",
+    title: "NASH.D | Singapore DJ & Performing Artist",
+    description:
+      "Official website of NASH.D, a Singapore-based DJ and performing artist. Explore event information, DJ mixes and playlists.",
+    images: [
+      {
+        url: "/hero.jpg",
+        width: 2048,
+        height: 1280,
+        alt: "NASH.D performing in front of a nightclub crowd"
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "NASH.D | Singapore DJ & Performing Artist",
+    description:
+      "Official website of NASH.D, a Singapore-based DJ and performing artist. Explore event information, DJ mixes and playlists.",
+    images: ["/hero.jpg"]
+  }
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

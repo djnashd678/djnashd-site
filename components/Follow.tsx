@@ -8,13 +8,13 @@ export default function Follow() {
         <p>Event drops, behind-the-scenes moments and new content.</p>
       </div>
       <div className="link-grid">
-        <a className="feature-link" href="https://instagram.com/djnashd" target="_blank">
-          <Instagram size={24} />
+        <a className="feature-link" href="https://instagram.com/djnashd" target="_blank" rel="noopener noreferrer">
+          <Instagram size={24} aria-hidden="true" />
           <div><strong>Instagram</strong><span>@djnashd</span></div>
           <span>↗</span>
         </a>
-        <a className="feature-link" href="https://www.tiktok.com/" target="_blank">
-          <Music2 size={24} />
+        <a className="feature-link" href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer">
+          <Music2 size={24} aria-hidden="true" />
           <div><strong>TikTok</strong><span>Short-form sets and moments</span></div>
           <span>↗</span>
         </a>

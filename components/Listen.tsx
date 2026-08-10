@@ -8,13 +8,13 @@ export default function Listen() {
         <p>DJ mixes and playlists for the spaces between shows.</p>
       </div>
       <div className="link-grid">
-        <a className="feature-link" href="https://www.mixcloud.com/" target="_blank">
-          <Headphones size={24} />
+        <a className="feature-link" href="https://www.mixcloud.com/" target="_blank" rel="noopener noreferrer">
+          <Headphones size={24} aria-hidden="true" />
           <div><strong>Mixcloud</strong><span>Featured DJ mixes</span></div>
           <span>↗</span>
         </a>
-        <a className="feature-link" href="https://open.spotify.com/" target="_blank">
-          <Music size={24} />
+        <a className="feature-link" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">
+          <Music size={24} aria-hidden="true" />
           <div><strong>Spotify</strong><span>Curated playlists</span></div>
           <span>↗</span>
         </a>

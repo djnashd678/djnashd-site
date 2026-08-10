@@ -16,11 +16,11 @@ export default function Hero() {
         <div>
           <h1>NASH.D</h1>
           <a className="button primary" href="#next-show">
-            Discover My Next Show <span aria-hidden="true">↗</span>
+            Explore Events <span aria-hidden="true">↗</span>
           </a>
         </div>
       </div>
-      <a className="scroll-cue" href="#next-show" aria-label="Scroll to next show">↓</a>
+      <a className="scroll-cue" href="#next-show" aria-label="Scroll to events">↓</a>
     </section>
   );
 }
