@@ -9,6 +9,17 @@
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,sans-serif}
 a{color:inherit;text-decoration:none}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.gate{min-height:100svh;display:grid;place-items:center;padding:32px;background:#050505}
+.gate-panel{width:min(480px,100%);text-align:center}
+.gate-panel h1{margin:0;font-family:"Space Grotesk",sans-serif;font-size:clamp(4.5rem,18vw,8rem);line-height:.85;letter-spacing:-.08em;color:#fff}
+.gate-panel>p:not(.gate-error){margin:28px 0 40px;color:var(--muted);font-size:.9rem;letter-spacing:.04em}
+.gate-form{display:grid;grid-template-columns:1fr auto;gap:10px}
+.gate-form input{min-width:0;height:54px;padding:0 18px;border:1px solid rgba(255,255,255,.16);border-radius:var(--radius);outline:none;background:#111;color:#fff;font:inherit}
+.gate-form input:focus{border-color:rgba(255,255,255,.42)}
+.gate-form button{height:54px;padding:0 24px;border:0;border-radius:var(--radius);background:var(--accent);color:#080808;font:800 .8rem Inter,sans-serif;letter-spacing:.08em;cursor:pointer}
+.gate-form button:hover{filter:brightness(1.08)}
+.gate-error{min-height:20px;margin:16px 0 0;color:#d88b70;font-size:.78rem}
 .shell{width:min(1120px,calc(100% - 32px));margin-inline:auto}
 .hero{min-height:94svh;position:relative;overflow:hidden;display:flex;align-items:flex-end;border-bottom:1px solid var(--line)}
 .hero-image{object-fit:cover;object-position:center;filter:grayscale(1) contrast(1.06);animation:heroZoom 12s ease-in-out infinite alternate}
@@ -56,6 +67,7 @@ a{color:inherit;text-decoration:none}
   html{scroll-behavior:auto}.hero-image{animation:none}.button,.event-card,.feature-link{transition:none}
 }
 @media(max-width:760px){
+  .gate-form{grid-template-columns:1fr}.gate-form button{width:100%}
   .hero{min-height:88svh}.hero-image{object-position:center 35%}.hero-content{padding-bottom:74px}
   .hero-content h1{font-size:clamp(4.3rem,22vw,6.4rem)}.button{width:100%}.section{padding-block:72px}
   .section-title,.event-pass-main,.booking-card{display:block}.section-title p{margin-top:16px}

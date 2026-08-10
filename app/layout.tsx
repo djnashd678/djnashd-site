@@ -34,7 +34,10 @@ export const metadata: Metadata = {
     description:
       "Official website of NASH.D, a Singapore-based DJ and performing artist. Explore event information, DJ mixes and playlists.",
     images: ["/hero.jpg"]
-  }
+  },
+  ...(process.env.SITE_PASSWORD
+    ? { robots: { index: false, follow: false, nocache: true } }
+    : {})
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
