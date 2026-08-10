@@ -15,7 +15,7 @@ Update `data/events.ts`.
 
 ## Replace placeholders
 Search for:
-- booking@example.com
+- hello@djnashd.com
 - https://www.mixcloud.com/
 - https://open.spotify.com/
 - https://www.tiktok.com/

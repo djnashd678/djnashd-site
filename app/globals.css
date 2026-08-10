@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
-
 :root{
   --bg:#090909;--surface:#141414;--surface-hover:#1d1d1d;
   --text:#f5f5f5;--muted:#a8a8a8;--accent:#ff5a1f;
@@ -7,17 +5,17 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,sans-serif}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-inter),sans-serif}
 a{color:inherit;text-decoration:none}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .gate{min-height:100svh;display:grid;place-items:center;padding:32px;background:#050505}
 .gate-panel{width:min(480px,100%);text-align:center}
-.gate-panel h1{margin:0;font-family:"Space Grotesk",sans-serif;font-size:clamp(4.5rem,18vw,8rem);line-height:.85;letter-spacing:-.08em;color:#fff}
+.gate-panel h1{margin:0;font-family:var(--font-space-grotesk),sans-serif;font-size:clamp(4.5rem,18vw,8rem);line-height:.85;letter-spacing:-.08em;color:#fff}
 .gate-panel>p:not(.gate-error){margin:28px 0 40px;color:var(--muted);font-size:.9rem;letter-spacing:.04em}
 .gate-form{display:grid;grid-template-columns:1fr auto;gap:10px}
 .gate-form input{min-width:0;height:54px;padding:0 18px;border:1px solid rgba(255,255,255,.16);border-radius:var(--radius);outline:none;background:#111;color:#fff;font:inherit}
 .gate-form input:focus{border-color:rgba(255,255,255,.42)}
-.gate-form button{height:54px;padding:0 24px;border:0;border-radius:var(--radius);background:var(--accent);color:#080808;font:800 .8rem Inter,sans-serif;letter-spacing:.08em;cursor:pointer}
+.gate-form button{height:54px;padding:0 24px;border:0;border-radius:var(--radius);background:var(--accent);color:#080808;font:800 .8rem var(--font-inter),sans-serif;letter-spacing:.08em;cursor:pointer}
 .gate-form button:hover{filter:brightness(1.08)}
 .gate-error{min-height:20px;margin:16px 0 0;color:#d88b70;font-size:.78rem}
 .shell{width:min(1120px,calc(100% - 32px));margin-inline:auto}
@@ -25,7 +23,7 @@ a{color:inherit;text-decoration:none}
 .hero-image{object-fit:cover;object-position:center;filter:grayscale(1) contrast(1.06);animation:heroZoom 12s ease-in-out infinite alternate}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,9,9,.08),rgba(9,9,9,.18) 42%,rgba(9,9,9,.94) 90%,#090909)}
 .hero-content{position:relative;z-index:1;padding-bottom:92px}
-.hero-content h1{margin:0 0 24px;font-family:"Space Grotesk",sans-serif;font-size:clamp(4rem,14vw,9rem);letter-spacing:-.08em;line-height:.86}
+.hero-content h1{margin:0 0 24px;font-family:var(--font-space-grotesk),sans-serif;font-size:clamp(4rem,14vw,9rem);letter-spacing:-.08em;line-height:.86}
 .scroll-cue{position:absolute;z-index:2;right:26px;bottom:26px;color:rgba(255,255,255,.65);font-size:1.25rem}
 .button{min-height:52px;padding:0 20px;border-radius:var(--radius);display:inline-flex;align-items:center;justify-content:center;gap:10px;font-size:.9rem;font-weight:800;transition:.15s}
 .button:hover{transform:translateY(-2px)}
@@ -36,7 +34,7 @@ a{color:inherit;text-decoration:none}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;margin-bottom:18px;color:var(--accent);font-size:.72rem;font-weight:800;letter-spacing:.16em}
 .eyebrow:before{content:"";width:24px;height:2px;background:var(--accent)}
 .section-title{display:flex;justify-content:space-between;gap:40px;align-items:flex-end;margin-bottom:36px}
-.section-title h2,.booking-card h2,.event-pass h1,.event-pass h2{margin:0;font-family:"Space Grotesk",sans-serif;font-size:clamp(2.4rem,6vw,5rem);line-height:.95;letter-spacing:-.06em}
+.section-title h2,.booking-card h2,.event-pass h1,.event-pass h2{margin:0;font-family:var(--font-space-grotesk),sans-serif;font-size:clamp(2.4rem,6vw,5rem);line-height:.95;letter-spacing:-.06em}
 .section-title p{max-width:390px;margin:0 0 4px;color:var(--muted);line-height:1.6}
 .event-pass{padding:clamp(24px,5vw,54px);border:1px solid var(--line);border-radius:30px;background:radial-gradient(circle at 82% 10%,rgba(255,90,31,.14),transparent 34%),var(--surface)}
 .event-pass-top{display:flex;justify-content:space-between;align-items:center}
@@ -50,7 +48,7 @@ a{color:inherit;text-decoration:none}
 .event-card{min-height:290px;padding:24px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);display:flex;flex-direction:column;justify-content:space-between;transition:.2s}
 .event-card:hover,.feature-link:hover{transform:translateY(-4px);background:var(--surface-hover)}
 .event-card-date{color:var(--accent);font-size:.75rem;font-weight:800;letter-spacing:.1em}
-.event-card h3{margin:0 0 8px;font-family:"Space Grotesk",sans-serif;font-size:2rem;letter-spacing:-.04em}
+.event-card h3{margin:0 0 8px;font-family:var(--font-space-grotesk),sans-serif;font-size:2rem;letter-spacing:-.04em}
 .event-card p{margin:0;color:var(--muted)}
 .event-card-footer{display:flex;justify-content:space-between;gap:16px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:.84rem}
 .event-card-footer a{color:var(--text);font-weight:700}
@@ -60,8 +58,26 @@ a{color:inherit;text-decoration:none}
 .booking-card{min-height:430px;padding:clamp(28px,6vw,72px);border-radius:30px;background:radial-gradient(circle at 78% 18%,rgba(255,90,31,.25),transparent 30%),#111;border:1px solid var(--line);display:flex;justify-content:space-between;gap:48px;align-items:flex-end}
 .booking-card p{max-width:650px;color:var(--muted);line-height:1.7;margin:22px 0 0}
 .footer{min-height:110px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:.82rem}
-.footer strong{color:var(--text);font-family:"Space Grotesk",sans-serif;font-size:1.2rem}
+.footer strong{color:var(--text);font-family:var(--font-space-grotesk),sans-serif;font-size:1.2rem}
 .footer strong span{color:var(--accent)}
+.footer-links{display:flex;align-items:center;gap:22px}
+.footer-links a:hover{color:var(--text)}
+.privacy-page{padding-block:72px 110px}
+.privacy-header{padding:48px 0 64px;border-bottom:1px solid var(--line)}
+.privacy-brand{display:inline-block;margin-bottom:70px;font-family:var(--font-space-grotesk),sans-serif;font-size:1.25rem;font-weight:700}
+.privacy-brand span{color:var(--accent)}
+.privacy-header h1{max-width:800px;margin:0;font-family:var(--font-space-grotesk),sans-serif;font-size:clamp(3.4rem,9vw,7rem);line-height:.9;letter-spacing:-.07em}
+.privacy-updated{margin:24px 0 0;color:var(--muted);font-size:.8rem;letter-spacing:.06em;text-transform:uppercase}
+.privacy-content{display:grid;grid-template-columns:220px minmax(0,680px);gap:clamp(40px,8vw,110px);padding-top:64px}
+.privacy-intro{margin:0;color:var(--text);font-size:1.18rem;line-height:1.7}
+.privacy-content h2{margin:0;color:var(--accent);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+.privacy-section{padding-bottom:42px;margin-bottom:42px;border-bottom:1px solid var(--line)}
+.privacy-section:last-child{margin-bottom:0;border-bottom:0}
+.privacy-section h3{margin:0 0 16px;font-family:var(--font-space-grotesk),sans-serif;font-size:1.55rem;letter-spacing:-.035em}
+.privacy-section p,.privacy-section li{color:var(--muted);line-height:1.75}
+.privacy-section p{margin:0 0 14px}.privacy-section p:last-child{margin-bottom:0}
+.privacy-section ul{margin:0;padding-left:20px}.privacy-section li+li{margin-top:7px}
+.privacy-section a{color:var(--text);text-decoration:underline;text-decoration-color:rgba(255,255,255,.3);text-underline-offset:4px}
 @keyframes heroZoom{from{transform:scale(1.02)}to{transform:scale(1.08)}}
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}.hero-image{animation:none}.button,.event-card,.feature-link{transition:none}
@@ -74,4 +90,7 @@ a{color:inherit;text-decoration:none}
   .event-actions{margin-top:32px}.events-row,.link-grid{grid-template-columns:1fr}
   .event-card{min-height:245px}.booking-card .button{margin-top:32px}
   .footer{padding-block:28px;min-height:auto;flex-direction:column;align-items:flex-start;gap:10px}
+  .footer-links{margin-top:8px;gap:18px}
+  .privacy-page{padding-block:30px 72px}.privacy-header{padding:24px 0 48px}.privacy-brand{margin-bottom:54px}
+  .privacy-content{grid-template-columns:1fr;gap:28px;padding-top:48px}.privacy-section{padding-bottom:34px;margin-bottom:34px}
 }
