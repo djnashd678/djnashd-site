@@ -1,27 +1,24 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { events, isEventPublishable } from "@/data/events";
+import { getCalendarEvents, getUpcomingEvents } from "@/lib/events/calendar";
 import { eventJsonLd, serializeJsonLd } from "@/lib/structured-data";
 
 type EventPageProps = {
   params: Promise<{ id: string }>;
 };
 
-export const dynamicParams = false;
-
-export function generateStaticParams() {
-  return events.filter((event) => isEventPublishable(event)).map((event) => ({ id: event.id }));
-}
+export const revalidate = 900;
 
 export async function generateMetadata({ params }: EventPageProps): Promise<Metadata> {
   const { id } = await params;
+  const events = getUpcomingEvents(await getCalendarEvents());
   const event = events.find((item) => item.id === id);
 
-  if (!event || !isEventPublishable(event)) return {};
+  if (!event) return {};
 
-  const title = `NASH.D at ${event.venue}`;
-  const description = `${event.date} at ${event.time} — NASH.D performing at ${event.venue}, ${event.location}.`;
+  const title = `${event.name} — ${event.venue}`;
+  const description = `${event.date} at ${event.time} — NASH.D at ${event.venue}. ${event.genre}.`;
   const url = `/events/${event.id}`;
 
   return {
@@ -46,9 +43,10 @@ export async function generateMetadata({ params }: EventPageProps): Promise<Meta
 
 export default async function EventPage({ params }: EventPageProps) {
   const { id } = await params;
+  const events = getUpcomingEvents(await getCalendarEvents());
   const event = events.find((item) => item.id === id);
 
-  if (!event || !isEventPublishable(event)) notFound();
+  if (!event) notFound();
 
   return (
     <main>
@@ -64,14 +62,16 @@ export default async function EventPage({ params }: EventPageProps) {
           <div className="event-pass-main">
             <div>
               <time className="event-date" dateTime={event.startDate}>{event.date}</time>
-              <h1 id="event-title">{event.venue}</h1>
-              <p>{event.day} · {event.time} · {event.location}</p>
+              <h1 id="event-title">{event.name}</h1>
+              <p className="event-venue">{event.venue}</p>
+              <p>{event.day} · {event.time} · {event.genre}</p>
+              {event.location ? <p>{event.location}</p> : null}
             </div>
             <div className="event-actions">
-              {event.guestlistUrl && event.guestlistUrl !== "#" ? (
+              {event.guestlistUrl ? (
                 <a className="button primary" href={event.guestlistUrl}>Join Guestlist</a>
               ) : null}
-              {event.ticketUrl && event.ticketUrl !== "#" ? (
+              {event.ticketUrl ? (
                 <a className="button secondary" href={event.ticketUrl}>Buy Tickets</a>
               ) : null}
               <Link className="button secondary" href="/#next-show">All events</Link>

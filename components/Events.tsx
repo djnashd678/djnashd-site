@@ -1,30 +1,33 @@
-import { isEventPublishable, type EventItem } from "@/data/events";
+import type { EventItem } from "@/lib/events/types";
 import Link from "next/link";
 
-export default function Events({ events }: { events: EventItem[] }) {
+export default function Events({ events, anchor = false }: { events: EventItem[]; anchor?: boolean }) {
   return (
-    <section className="section shell" aria-labelledby="events-title">
+    <section className="section shell" id={anchor ? "next-show" : undefined} aria-labelledby="events-title">
       <div className="section-title">
         <div><span className="eyebrow">EVENTS</span><h2 id="events-title">Catch me here</h2></div>
         <p>Event information, guestlists and venue details.</p>
       </div>
-      <div className="events-row">
+      {events.length ? <div className="events-row">
         {events.map((event) => (
           <article className="event-card" key={event.id}>
             <time className="event-card-date" dateTime={event.startDate}>{event.date}</time>
             <div>
-              <h3>
-                {isEventPublishable(event) ? <Link href={`/events/${event.id}`}>{event.venue}</Link> : event.venue}
-              </h3>
-              <p>{event.location}</p>
+              <h3><Link href={`/events/${event.id}`}>{event.name}</Link></h3>
+              <p className="event-card-venue">{event.venue}</p>
+              <p>{event.day} · {event.time}</p>
+              <p>{event.genre}</p>
             </div>
             <div className="event-card-footer">
-              <span>{event.day} · {event.time}</span>
-              <a href={event.guestlistUrl || "#"}>Guestlist ↗</a>
+              <span>{event.location || event.venue}</span>
+              <span className="event-card-actions">
+                {event.guestlistUrl ? <a href={event.guestlistUrl}>Guestlist ↗</a> : null}
+                {event.ticketUrl ? <a href={event.ticketUrl}>Tickets ↗</a> : null}
+              </span>
             </div>
           </article>
         ))}
-      </div>
+      </div> : <div className="events-empty"><p>New dates coming soon.</p></div>}
     </section>
   );
 }

@@ -1,4 +1,4 @@
-import type { EventItem } from "@/data/events";
+import type { EventItem } from "@/lib/events/types";
 
 const siteUrl = "https://djnashd.com";
 const artistId = `${siteUrl}/#artist`;
@@ -38,8 +38,9 @@ export function eventJsonLd(event: EventItem) {
     "@context": "https://schema.org",
     "@type": "Event",
     "@id": `${eventUrl}/#event`,
-    name: `NASH.D at ${event.venue}`,
+    name: event.name,
     startDate: event.startDate,
+    endDate: event.endDate,
     eventStatus: "https://schema.org/EventScheduled",
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     location: {
@@ -48,8 +49,10 @@ export function eventJsonLd(event: EventItem) {
       address: event.location
     },
     performer: { "@id": artistId },
+    keywords: event.genre,
     url: eventUrl,
-    image: `${siteUrl}/hero.jpg`
+    image: `${siteUrl}/hero.jpg`,
+    ...(event.ticketUrl ? { offers: { "@type": "Offer", url: event.ticketUrl } } : {})
   };
 }
 

@@ -1,5 +1,5 @@
 import { CalendarDays, Clock3, MapPin } from "lucide-react";
-import { isEventPublishable, type EventItem } from "@/data/events";
+import type { EventItem } from "@/lib/events/types";
 import Link from "next/link";
 
 export default function NextShow({ event }: { event: EventItem }) {
@@ -13,18 +13,18 @@ export default function NextShow({ event }: { event: EventItem }) {
         <div className="event-pass-main">
           <div>
             <time className="event-date" dateTime={event.startDate}>{event.date}</time>
-            <h2 id="next-show-title">
-              {isEventPublishable(event) ? <Link href={`/events/${event.id}`}>{event.venue}</Link> : event.venue}
-            </h2>
+            <h2 id="next-show-title"><Link href={`/events/${event.id}`}>{event.name}</Link></h2>
+            <p className="event-venue">{event.venue}</p>
             <div className="event-meta">
               <span><CalendarDays size={17} /> {event.day}</span>
               <span><Clock3 size={17} /> {event.time}</span>
-              <span><MapPin size={17} /> {event.location}</span>
+              <span>{event.genre}</span>
+              {event.location ? <span><MapPin size={17} /> {event.location}</span> : null}
             </div>
           </div>
           <div className="event-actions">
-            <a className="button primary" href={event.guestlistUrl || "#"}>Join Guestlist</a>
-            <a className="button secondary" href={event.ticketUrl || "#"}>Buy Tickets</a>
+            {event.guestlistUrl ? <a className="button primary" href={event.guestlistUrl}>Join Guestlist</a> : null}
+            {event.ticketUrl ? <a className="button secondary" href={event.ticketUrl}>Buy Tickets</a> : null}
           </div>
         </div>
       </div>

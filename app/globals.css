@@ -41,6 +41,7 @@ a{color:inherit;text-decoration:none}
 .live-dot{color:var(--muted);font-size:.7rem;font-weight:800;letter-spacing:.12em}
 .event-pass-main{display:flex;justify-content:space-between;gap:48px;align-items:flex-end}
 .event-date{color:var(--muted);margin:16px 0 10px}
+.event-venue{margin:12px 0 0;color:var(--text);font-size:1.1rem;font-weight:700}
 .event-meta{display:flex;flex-wrap:wrap;gap:14px 22px;margin-top:24px;color:var(--muted)}
 .event-meta span{display:inline-flex;align-items:center;gap:8px}
 .event-actions{display:flex;gap:10px;flex-wrap:wrap}
@@ -50,8 +51,12 @@ a{color:inherit;text-decoration:none}
 .event-card-date{color:var(--accent);font-size:.75rem;font-weight:800;letter-spacing:.1em}
 .event-card h3{margin:0 0 8px;font-family:var(--font-space-grotesk),sans-serif;font-size:2rem;letter-spacing:-.04em}
 .event-card p{margin:0;color:var(--muted)}
+.event-card p+p{margin-top:6px}.event-card .event-card-venue{margin-bottom:10px;color:var(--text);font-weight:700}
 .event-card-footer{display:flex;justify-content:space-between;gap:16px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:.84rem}
 .event-card-footer a{color:var(--text);font-weight:700}
+.event-card-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:12px}
+.events-empty{display:grid;min-height:220px;place-items:center;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);text-align:center}
+.events-empty p{margin:0;color:var(--muted);font-family:var(--font-space-grotesk),sans-serif;font-size:clamp(1.5rem,4vw,2.4rem);letter-spacing:-.04em}
 .feature-link{padding:22px;min-height:110px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);transition:.2s}
 .feature-link strong{display:block;margin-bottom:4px}
 .feature-link span{color:var(--muted);font-size:.84rem}
