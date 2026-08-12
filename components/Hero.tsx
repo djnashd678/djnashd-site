@@ -16,7 +16,7 @@ export default function Hero() {
         <div>
           <h1>NASH.D</h1>
           <a className="button primary" href="#next-show">
-            Explore Events <span aria-hidden="true">↗</span>
+            Explore Events <span aria-hidden="true">{"\u2197\uFE0E"}</span>
           </a>
         </div>
       </div>

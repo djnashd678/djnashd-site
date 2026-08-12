@@ -11,12 +11,12 @@ export default function Follow() {
         <a className="feature-link" href="https://instagram.com/djnashd" target="_blank" rel="noopener noreferrer">
           <Instagram size={24} aria-hidden="true" />
           <div><strong>Instagram</strong><span>@djnashd</span></div>
-          <span>↗</span>
+          <span>{"\u2197\uFE0E"}</span>
         </a>
         <a className="feature-link" href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer">
           <Music2 size={24} aria-hidden="true" />
           <div><strong>TikTok</strong><span>Short-form sets and moments</span></div>
-          <span>↗</span>
+          <span>{"\u2197\uFE0E"}</span>
         </a>
       </div>
     </section>

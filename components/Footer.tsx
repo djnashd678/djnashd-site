@@ -7,7 +7,7 @@ export default function Footer() {
       <p>© {new Date().getFullYear()} NASH.D</p>
       <div className="footer-links">
         <Link href="/privacy">Privacy</Link>
-        <a href="mailto:hello@djnashd.com">Bookings ↗</a>
+        <a href="mailto:hello@djnashd.com">Bookings {"\u2197\uFE0E"}</a>
       </div>
     </footer>
   );
