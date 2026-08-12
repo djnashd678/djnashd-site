@@ -3,6 +3,7 @@ import test from "node:test";
 import { parseCalendarIcs } from "../lib/events/ics.ts";
 import { parseEventMetadata } from "../lib/events/metadata.ts";
 import { getUpcomingEvents, selectFeaturedEvent } from "../lib/events/selection.ts";
+import { shouldShowSecondaryVenue } from "../lib/events/display.ts";
 import type { EventItem } from "../lib/events/types.ts";
 
 function calendar(eventLines: string[]): string {
@@ -42,6 +43,12 @@ test("parses Google Calendar rich-text descriptions without retaining HTML", () 
   assert.equal(metadata?.genre, "Hip-Hop / R&B");
   assert.equal(metadata?.venue, "Marquee Singapore");
   assert.equal(metadata?.guestlistUrl, "https://example.com/guestlist");
+});
+
+test("suppresses only effectively identical secondary venue names", () => {
+  assert.equal(shouldShowSecondaryVenue("Avenue", " Avenue "), false);
+  assert.equal(shouldShowSecondaryVenue("BAES", "baes"), false);
+  assert.equal(shouldShowSecondaryVenue("Marquee Presents Nash.D & Zippy", "Marquee Singapore"), true);
 });
 
 test("rejects all-day, recurring, cancelled, private, and incomplete events", () => {

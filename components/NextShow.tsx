@@ -1,5 +1,7 @@
 import { CalendarDays, Clock3, MapPin } from "lucide-react";
 import type { EventItem } from "@/lib/events/types";
+import { shouldShowSecondaryVenue } from "@/lib/events/display";
+import EventCta from "@/components/EventCta";
 import Link from "next/link";
 
 export default function NextShow({ event }: { event: EventItem }) {
@@ -14,7 +16,7 @@ export default function NextShow({ event }: { event: EventItem }) {
           <div>
             <time className="event-date" dateTime={event.startDate}>{event.date}</time>
             <h2 id="next-show-title"><Link href={`/events/${event.id}`}>{event.name}</Link></h2>
-            <p className="event-venue">{event.venue}</p>
+            {shouldShowSecondaryVenue(event.name, event.venue) ? <p className="event-venue">{event.venue}</p> : null}
             <div className="event-meta">
               <span><CalendarDays size={17} /> {event.day}</span>
               <span><Clock3 size={17} /> {event.time}</span>
@@ -23,8 +25,8 @@ export default function NextShow({ event }: { event: EventItem }) {
             </div>
           </div>
           <div className="event-actions">
-            {event.guestlistUrl ? <a className="button primary" href={event.guestlistUrl}>Join Guestlist</a> : null}
-            {event.ticketUrl ? <a className="button secondary" href={event.ticketUrl}>Buy Tickets</a> : null}
+            {event.guestlistUrl ? <EventCta className="button primary" href={event.guestlistUrl} label="Join Guestlist" /> : null}
+            {event.ticketUrl ? <EventCta className="button secondary" href={event.ticketUrl} label="Buy Tickets" /> : null}
           </div>
         </div>
       </div>

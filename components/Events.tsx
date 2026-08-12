@@ -1,4 +1,6 @@
 import type { EventItem } from "@/lib/events/types";
+import { shouldShowSecondaryVenue } from "@/lib/events/display";
+import EventCta from "@/components/EventCta";
 import Link from "next/link";
 
 export default function Events({ events, anchor = false }: { events: EventItem[]; anchor?: boolean }) {
@@ -14,15 +16,15 @@ export default function Events({ events, anchor = false }: { events: EventItem[]
             <time className="event-card-date" dateTime={event.startDate}>{event.date}</time>
             <div>
               <h3><Link href={`/events/${event.id}`}>{event.name}</Link></h3>
-              <p className="event-card-venue">{event.venue}</p>
+              {shouldShowSecondaryVenue(event.name, event.venue) ? <p className="event-card-venue">{event.venue}</p> : null}
               <p>{event.day} · {event.time}</p>
               <p>{event.genre}</p>
             </div>
             <div className="event-card-footer">
               <span>{event.location || event.venue}</span>
               <span className="event-card-actions">
-                {event.guestlistUrl ? <a href={event.guestlistUrl}>Guestlist ↗</a> : null}
-                {event.ticketUrl ? <a href={event.ticketUrl}>Tickets ↗</a> : null}
+                {event.guestlistUrl ? <EventCta href={event.guestlistUrl} label="Guestlist" /> : null}
+                {event.ticketUrl ? <EventCta href={event.ticketUrl} label="Tickets" /> : null}
               </span>
             </div>
           </article>
