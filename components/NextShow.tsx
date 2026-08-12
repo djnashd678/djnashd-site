@@ -21,7 +21,7 @@ export default function NextShow({ event }: { event: EventItem }) {
               <span><CalendarDays size={17} /> {event.day}</span>
               <span><Clock3 size={17} /> {event.time}</span>
               <span>{event.genre}</span>
-              {event.location ? <span><MapPin size={17} /> {event.location}</span> : null}
+              {event.location ? <span className="event-location"><MapPin size={17} /> {event.location}</span> : null}
             </div>
           </div>
           <div className="event-actions">

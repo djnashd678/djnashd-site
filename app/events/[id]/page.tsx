@@ -67,7 +67,7 @@ export default async function EventPage({ params }: EventPageProps) {
               <h1 id="event-title">{event.name}</h1>
               {shouldShowSecondaryVenue(event.name, event.venue) ? <p className="event-venue">{event.venue}</p> : null}
               <p>{event.day} · {event.time} · {event.genre}</p>
-              {event.location ? <p>{event.location}</p> : null}
+              {event.location ? <p className="event-location">{event.location}</p> : null}
             </div>
             <div className="event-actions">
               {event.guestlistUrl ? (

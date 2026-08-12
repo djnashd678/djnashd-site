@@ -49,6 +49,7 @@ a{color:inherit;text-decoration:none}
 .event-cta-arrow{color:var(--accent)}
 .button.event-cta{color:var(--text)}
 .button.event-cta.primary{border:1px solid var(--accent);background:color-mix(in srgb,var(--accent) 16%,transparent)}
+.event-location a[x-apple-data-detectors]{color:inherit!important;text-decoration:none!important;border-bottom:0!important}
 .events-row,.link-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 .event-card{min-height:290px;padding:24px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);display:flex;flex-direction:column;justify-content:space-between;transition:.2s}
 .event-card:hover,.feature-link:hover{transform:translateY(-4px);background:var(--surface-hover)}
@@ -95,9 +96,10 @@ a{color:inherit;text-decoration:none}
   .gate-form{grid-template-columns:1fr}.gate-form button{width:100%}
   .hero{min-height:88svh}.hero-image{object-position:center 35%}.hero-content{padding-bottom:74px}
   .hero-content h1{font-size:clamp(4.3rem,22vw,6.4rem)}.button{width:100%}.section{padding-block:72px}
+  main>.section+.section{padding-top:24px}
   .section-title,.event-pass-main,.booking-card{display:block}.section-title p{margin-top:16px}
   .event-actions{margin-top:32px}.events-row,.link-grid{grid-template-columns:1fr}
-  .event-card{min-height:245px}.booking-card .button{margin-top:32px}
+  .event-card{min-height:245px}.event-card-footer{flex-direction:column;align-items:stretch;gap:12px}.event-card-actions{justify-content:flex-start}.event-card-actions:empty{display:none}.booking-card .button{margin-top:32px}
   .footer{padding-block:28px;min-height:auto;flex-direction:column;align-items:flex-start;gap:10px}
   .footer-links{margin-top:8px;gap:18px}
   .privacy-page{padding-block:30px 72px}.privacy-header{padding:24px 0 48px}.privacy-brand{margin-bottom:54px}

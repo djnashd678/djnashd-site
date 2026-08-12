@@ -21,7 +21,7 @@ export default function Events({ events, anchor = false }: { events: EventItem[]
               <p>{event.genre}</p>
             </div>
             <div className="event-card-footer">
-              <span>{event.location || event.venue}</span>
+              <span className="event-location">{event.location || event.venue}</span>
               <span className="event-card-actions">
                 {event.guestlistUrl ? <EventCta href={event.guestlistUrl} label="Guestlist" /> : null}
                 {event.ticketUrl ? <EventCta href={event.ticketUrl} label="Tickets" /> : null}
