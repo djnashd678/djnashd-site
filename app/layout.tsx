@@ -24,6 +24,10 @@ export const metadata: Metadata = {
   },
   description:
     "Official website of NASH.D, a Singapore-based DJ and performing artist. Explore event information, DJ mixes and playlists.",
+  formatDetection: {
+    date: false,
+    address: false
+  },
   alternates: {
     canonical: "/"
   },
