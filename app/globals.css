@@ -20,11 +20,21 @@ a{color:inherit;text-decoration:none}
 .gate-error{min-height:20px;margin:16px 0 0;color:#d88b70;font-size:.78rem}
 .shell{width:min(1120px,calc(100% - 32px));margin-inline:auto}
 .hero{min-height:94svh;position:relative;overflow:hidden;display:flex;align-items:flex-end;border-bottom:1px solid var(--line)}
+.hero-nav{position:absolute;z-index:3;top:0;left:0;width:100%;border-bottom:1px solid rgba(255,255,255,.12);background:linear-gradient(180deg,rgba(9,9,9,.56),rgba(9,9,9,0))}
+.hero-nav-inner{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:32px}
+.hero-nav-brand{font-family:var(--font-space-grotesk),sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:-.035em}
+.hero-nav nav{display:flex;align-items:center;gap:30px}
+.hero-nav nav a{color:rgba(255,255,255,.78);font-size:.68rem;font-weight:700;letter-spacing:.16em}
+.hero-nav nav a:hover{color:var(--text)}
+.hero-nav a:focus-visible,.scroll-cue:focus-visible{outline:2px solid var(--accent);outline-offset:5px}
 .hero-image{object-fit:cover;object-position:center;filter:grayscale(1) contrast(1.06);animation:heroZoom 12s ease-in-out infinite alternate}
-.hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,9,9,.08),rgba(9,9,9,.18) 42%,rgba(9,9,9,.94) 90%,#090909)}
-.hero-content{position:relative;z-index:1;padding-bottom:92px}
-.hero-content h1{margin:0 0 24px;font-family:var(--font-space-grotesk),sans-serif;font-size:clamp(4rem,14vw,9rem);letter-spacing:-.08em;line-height:.86}
-.scroll-cue{position:absolute;z-index:2;right:26px;bottom:26px;color:rgba(255,255,255,.65);font-size:1.25rem}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(9,9,9,.62) 0%,rgba(9,9,9,.2) 48%,rgba(9,9,9,.04) 76%),linear-gradient(180deg,rgba(9,9,9,.05) 0%,rgba(9,9,9,.12) 42%,rgba(9,9,9,.76) 76%,#090909 100%)}
+.hero-content{position:relative;z-index:1;padding-bottom:clamp(78px,9vh,112px)}
+.hero-content>div{max-width:1040px}
+.hero-eyebrow{margin:0 0 18px;color:var(--accent);font-size:.72rem;font-weight:800;letter-spacing:.2em}
+.hero-content h1{margin:0 0 30px;font-family:var(--font-space-grotesk),sans-serif;font-size:clamp(5.5rem,16vw,11rem);letter-spacing:-.085em;line-height:.78;white-space:nowrap}
+.scroll-cue{position:absolute;z-index:2;right:26px;bottom:26px;display:inline-flex;align-items:center;gap:8px;color:rgba(255,255,255,.65);font-size:.65rem;font-weight:700;letter-spacing:.18em}
+.scroll-cue span{font-size:.9rem;letter-spacing:0}
 .button{min-height:52px;padding:0 20px;border-radius:var(--radius);display:inline-flex;align-items:center;justify-content:center;gap:10px;font-size:.9rem;font-weight:800;transition:.15s}
 .button:hover{transform:translateY(-2px)}
 .button.primary{background:var(--accent);color:#080808}
@@ -94,8 +104,10 @@ a{color:inherit;text-decoration:none}
 }
 @media(max-width:760px){
   .gate-form{grid-template-columns:1fr}.gate-form button{width:100%}
-  .hero{min-height:88svh}.hero-image{object-position:center 35%}.hero-content{padding-bottom:74px}
-  .hero-content h1{font-size:clamp(4.3rem,22vw,6.4rem)}.button{width:100%}.section{padding-block:72px}
+  .hero-nav-inner{min-height:56px}.hero-nav nav{gap:0}.hero-nav .hero-nav-desktop-link{display:none}
+  .hero{min-height:72svh}.hero-image{object-position:center 58%}.hero-content{padding-bottom:42px}
+  .hero-eyebrow{margin-bottom:12px;font-size:.64rem;letter-spacing:.17em}.hero-content h1{margin-bottom:22px;font-size:clamp(3.7rem,21vw,6.4rem);line-height:.82}.button{width:100%}.section{padding-block:72px}
+  .scroll-cue{display:none}
   main>.section+.section{padding-top:24px}
   .section-title,.event-pass-main,.booking-card{display:block}.section-title p{margin-top:16px}
   .event-actions{margin-top:32px}.events-row,.link-grid{grid-template-columns:1fr}

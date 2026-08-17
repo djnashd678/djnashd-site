@@ -2,7 +2,7 @@ import { Headphones, Music } from "lucide-react";
 
 export default function Listen() {
   return (
-    <section className="section shell">
+    <section className="section shell" id="mixes">
       <div className="section-title">
         <div><span className="eyebrow">LISTEN</span><h2>My sound</h2></div>
         <p>DJ mixes and playlists for the spaces between shows.</p>

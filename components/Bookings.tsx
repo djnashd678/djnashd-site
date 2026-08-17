@@ -2,7 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 
 export default function Bookings() {
   return (
-    <section className="section shell">
+    <section className="section shell" id="book">
       <div className="booking-card">
         <div>
           <span className="eyebrow">WORK WITH ME</span>
