@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCalendarEvents, getUpcomingEvents } from "@/lib/events/calendar";
 import { shouldShowSecondaryVenue } from "@/lib/events/display";
-import { eventJsonLd, serializeJsonLd } from "@/lib/structured-data";
+import { eventDescription, eventJsonLd, serializeJsonLd } from "@/lib/structured-data";
 import EventCta from "@/components/EventCta";
 
 type EventPageProps = {
@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: EventPageProps): Promise<Meta
   if (!event) return {};
 
   const title = `${event.name} — ${event.venue}`;
-  const description = `${event.date} at ${event.time} — NASH.D at ${event.venue}. ${event.genre}.`;
+  const description = eventDescription(event);
   const url = `/events/${event.id}`;
 
   return {

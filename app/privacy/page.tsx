@@ -99,10 +99,9 @@ export default function PrivacyPage() {
             <section className="privacy-section">
               <h3>Third-party links</h3>
               <p>
-                The site links to services including Instagram, TikTok, Spotify, and Mixcloud. These
-                are ordinary outbound links rather than embedded players or social widgets. Those
-                services receive information under their own privacy practices only when you choose
-                to visit them.
+                The site links to Instagram, YouTube, and Mixcloud. These are ordinary outbound
+                links rather than embedded players or social widgets. Those services receive
+                information under their own privacy practices only when you choose to visit them.
               </p>
             </section>
 

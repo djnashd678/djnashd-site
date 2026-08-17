@@ -10,6 +10,7 @@ export const artistWebsiteJsonLd = {
       "@type": "Person",
       "@id": artistId,
       name: "NASH.D",
+      alternateName: ["NashD", "DJ NashD"],
       url: siteUrl,
       image: `${siteUrl}/hero.jpg`,
       jobTitle: "DJ and performing artist",
@@ -17,7 +18,11 @@ export const artistWebsiteJsonLd = {
         "@type": "Place",
         name: "Singapore"
       },
-      sameAs: ["https://instagram.com/djnashd"]
+      sameAs: [
+        "https://instagram.com/djnashd",
+        "https://www.youtube.com/@DJNASHD",
+        "https://www.mixcloud.com/djnashd/"
+      ]
     },
     {
       "@type": "WebSite",
@@ -31,6 +36,10 @@ export const artistWebsiteJsonLd = {
   ]
 };
 
+export function eventDescription(event: EventItem): string {
+  return `${event.date} at ${event.time} — NASH.D at ${event.venue}. ${event.genre}.`;
+}
+
 export function eventJsonLd(event: EventItem) {
   const eventUrl = `${siteUrl}/events/${event.id}`;
 
@@ -39,6 +48,7 @@ export function eventJsonLd(event: EventItem) {
     "@type": "Event",
     "@id": `${eventUrl}/#event`,
     name: event.name,
+    description: eventDescription(event),
     startDate: event.startDate,
     endDate: event.endDate,
     eventStatus: "https://schema.org/EventScheduled",
@@ -46,9 +56,19 @@ export function eventJsonLd(event: EventItem) {
     location: {
       "@type": "Place",
       name: event.venue,
-      address: event.location
+      ...(event.location ? {
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: event.location
+        }
+      } : {})
     },
-    performer: { "@id": artistId },
+    performer: {
+      "@type": "Person",
+      "@id": artistId,
+      name: "NASH.D",
+      url: siteUrl
+    },
     keywords: event.genre,
     url: eventUrl,
     image: `${siteUrl}/hero.jpg`,

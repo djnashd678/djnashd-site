@@ -7,7 +7,12 @@ export default function Bookings() {
         <div>
           <span className="eyebrow">WORK WITH ME</span>
           <h2>Bring the right energy to your event.</h2>
-          <p>Clubs, festivals, brand events, corporate functions and private celebrations.</p>
+          <p>
+            NASH.D is a Singapore-based DJ and performing artist known for high-energy, genre-fluid
+            sets spanning hip-hop, R&amp;B and electronic music. From clubs and festivals to private
+            events and brand experiences, no two NASH.D sets are ever quite the same. Bookings also
+            include corporate functions and private celebrations.
+          </p>
         </div>
         <a
           className="button light"
