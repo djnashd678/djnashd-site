@@ -11,8 +11,12 @@ export type EventItem = {
   time: string;
   ticketUrl?: string;
   guestlistUrl?: string;
+  reservationsUrl?: string;
   featured: boolean;
   featureFrom?: string;
+  publishFrom?: string;
+  image?: string;
+  imageMobile?: string;
 };
 
 export type EventMetadata = {
@@ -20,6 +24,10 @@ export type EventMetadata = {
   genre: string;
   ticketUrl?: string;
   guestlistUrl?: string;
+  reservationsUrl?: string;
   featured: boolean;
   featureFrom?: string;
+  publishFrom?: string;
+  image?: string;
+  imageMobile?: string;
 };

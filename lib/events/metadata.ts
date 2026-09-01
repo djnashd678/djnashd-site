@@ -1,18 +1,14 @@
 import type { EventMetadata } from "./types.ts";
+import { decodeHtmlEntities } from "./text.ts";
 
 const BLOCK_PATTERN = /(?:^|\n)\[NASHD\]\s*\n([\s\S]*?)\n\[\/NASHD\](?:\n|$)/i;
 const MAX_FIELD_LENGTH = 500;
 
 function normalizeGoogleDescription(value: string): string {
-  return value
+  return decodeHtmlEntities(value
     .replace(/<br\s*\/?>/gi, "\n")
     .replace(/<[^>]*>/g, "")
-    .replace(/&(?:amp|#38);/gi, "&")
-    .replace(/&(?:quot|#34);/gi, '"')
-    .replace(/&(?:apos|#39);/gi, "'")
-    .replace(/&(?:lt|#60);/gi, "<")
-    .replace(/&(?:gt|#62);/gi, ">")
-    .replace(/&nbsp;/gi, " ");
+  );
 }
 
 function validHttpUrl(value: string): string | undefined {
@@ -28,6 +24,12 @@ function validIsoDate(value: string): string | undefined {
   if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2})?(?:Z|[+-]\d{2}:\d{2})$/.test(value)) return undefined;
   const date = new Date(value);
   return Number.isNaN(date.getTime()) ? undefined : date.toISOString();
+}
+
+function validRootRelativePath(value: string): string | undefined {
+  if (!value.startsWith("/") || value.startsWith("//") || value.includes("\\") || /[?#\u0000-\u001f]/.test(value)) return undefined;
+  const segments = value.split("/");
+  return segments.some((segment) => segment === "." || segment === "..") ? undefined : value;
 }
 
 export function parseEventMetadata(description: string): EventMetadata | null {
@@ -49,6 +51,9 @@ export function parseEventMetadata(description: string): EventMetadata | null {
 
   const featured = values.get("featured")?.toLowerCase() === "true";
   const featureFrom = values.get("feature-from");
+  const publishFrom = values.get("publish-from");
+  const image = validRootRelativePath(values.get("image") ?? "");
+  const imageMobile = validRootRelativePath(values.get("image-mobile") ?? "");
 
   return {
     venue,
@@ -56,6 +61,10 @@ export function parseEventMetadata(description: string): EventMetadata | null {
     featured,
     ...(validHttpUrl(values.get("guestlist") ?? "") ? { guestlistUrl: validHttpUrl(values.get("guestlist") ?? "") } : {}),
     ...(validHttpUrl(values.get("tickets") ?? "") ? { ticketUrl: validHttpUrl(values.get("tickets") ?? "") } : {}),
-    ...(featured && featureFrom && validIsoDate(featureFrom) ? { featureFrom: validIsoDate(featureFrom) } : {})
+    ...(validHttpUrl(values.get("reservations") ?? "") ? { reservationsUrl: validHttpUrl(values.get("reservations") ?? "") } : {}),
+    ...(featured && featureFrom && validIsoDate(featureFrom) ? { featureFrom: validIsoDate(featureFrom) } : {}),
+    ...(publishFrom && validIsoDate(publishFrom) ? { publishFrom: validIsoDate(publishFrom) } : {}),
+    ...(image ? { image } : {}),
+    ...(imageMobile ? { imageMobile } : {})
   };
 }

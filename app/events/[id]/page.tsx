@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 import { getCalendarEvents, getUpcomingEvents } from "@/lib/events/calendar";
 import { shouldShowSecondaryVenue } from "@/lib/events/display";
 import { eventDescription, eventJsonLd, serializeJsonLd } from "@/lib/structured-data";
-import EventCta from "@/components/EventCta";
+import EventActions from "@/components/EventActions";
+import EventLocation from "@/components/EventLocation";
 
 type EventPageProps = {
   params: Promise<{ id: string }>;
@@ -67,15 +68,10 @@ export default async function EventPage({ params }: EventPageProps) {
               <h1 id="event-title">{event.name}</h1>
               {shouldShowSecondaryVenue(event.name, event.venue) ? <p className="event-venue">{event.venue}</p> : null}
               <p>{event.day} · {event.time} · {event.genre}</p>
-              {event.location ? <p className="event-location">{event.location}</p> : null}
+              {event.location ? <p><EventLocation location={event.location} /></p> : null}
             </div>
             <div className="event-actions">
-              {event.guestlistUrl ? (
-                <EventCta className="button primary" href={event.guestlistUrl} label="Join Guestlist" />
-              ) : null}
-              {event.ticketUrl ? (
-                <EventCta className="button secondary" href={event.ticketUrl} label="Buy Tickets" />
-              ) : null}
+              <EventActions event={event} />
               <Link className="button secondary" href="/#next-show">All events</Link>
             </div>
           </div>

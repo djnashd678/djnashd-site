@@ -1,7 +1,7 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
 import { parseCalendarIcs } from "./ics.ts";
-export { getUpcomingEvents, selectFeaturedEvent } from "./selection.ts";
+export { getUpcomingEvents, selectFeaturedEvent, selectFeaturedEvents } from "./selection.ts";
 import type { EventItem } from "./types.ts";
 
 const REVALIDATE_SECONDS = 15 * 60;
@@ -23,7 +23,7 @@ const loadCachedEvents = unstable_cache(
     if (!response.ok) throw new Error(`Calendar request failed with status ${response.status}`);
     return parseCalendarIcs(await response.text());
   },
-  ["nashd-shows-calendar-v1"],
+  ["nashd-shows-calendar-v2"],
   { revalidate: REVALIDATE_SECONDS }
 );
 

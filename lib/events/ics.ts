@@ -1,6 +1,8 @@
 import { createHash } from "node:crypto";
 import { parseEventMetadata } from "./metadata.ts";
 import type { EventItem } from "./types.ts";
+import { formatEventTimeRange } from "./display.ts";
+import { decodeHtmlEntities } from "./text.ts";
 
 const MAX_ICS_BYTES = 1_000_000;
 const MAX_EVENTS = 200;
@@ -34,10 +36,10 @@ function parseProperty(line: string): Property | null {
 }
 
 function decodeText(value: string): string {
-  return value.replace(/\\([nN,;\\])/g, (_, escaped: string) => {
+  return decodeHtmlEntities(value.replace(/\\([nN,;\\])/g, (_, escaped: string) => {
     if (escaped === "n" || escaped === "N") return "\n";
     return escaped;
-  }).trim();
+  })).trim();
 }
 
 function parseDate(property: Property): Date | null {
@@ -85,10 +87,6 @@ function formatEvent(uid: string, properties: Map<string, Property>): EventItem 
     timeZone: "Asia/Singapore", day: "2-digit", month: "short", year: "numeric"
   });
   const dayFormatter = new Intl.DateTimeFormat("en-SG", { timeZone: "Asia/Singapore", weekday: "long" });
-  const timeFormatter = new Intl.DateTimeFormat("en-SG", {
-    timeZone: "Asia/Singapore", hour: "numeric", minute: "2-digit", hour12: true
-  });
-
   return {
     id: eventId(uid),
     name: summary,
@@ -99,11 +97,15 @@ function formatEvent(uid: string, properties: Map<string, Property>): EventItem 
     endDate: end.toISOString(),
     date: dateFormatter.format(start).toUpperCase(),
     day: dayFormatter.format(start),
-    time: timeFormatter.format(start).replace(/\s/g, " ").toUpperCase(),
+    time: formatEventTimeRange(start, end),
     featured: metadata.featured,
     ...(metadata.featureFrom ? { featureFrom: metadata.featureFrom } : {}),
     ...(metadata.guestlistUrl ? { guestlistUrl: metadata.guestlistUrl } : {}),
-    ...(metadata.ticketUrl ? { ticketUrl: metadata.ticketUrl } : {})
+    ...(metadata.ticketUrl ? { ticketUrl: metadata.ticketUrl } : {}),
+    ...(metadata.reservationsUrl ? { reservationsUrl: metadata.reservationsUrl } : {}),
+    ...(metadata.publishFrom ? { publishFrom: metadata.publishFrom } : {}),
+    ...(metadata.image ? { image: metadata.image } : {}),
+    ...(metadata.imageMobile ? { imageMobile: metadata.imageMobile } : {})
   };
 }
 

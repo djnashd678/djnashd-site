@@ -1,4 +1,5 @@
 import Image from "next/image";
+import HeroVideo from "@/components/HeroVideo";
 
 export default function Hero() {
   return (
@@ -8,7 +9,6 @@ export default function Hero() {
           <a className="hero-nav-brand" href="/">NASH.D</a>
           <nav aria-label="Primary navigation">
             <a className="hero-nav-desktop-link" href="#next-show">EVENTS</a>
-            <a className="hero-nav-desktop-link" href="#mixes">MIXES</a>
             <a href="#book">BOOK</a>
           </nav>
         </div>
@@ -21,6 +21,7 @@ export default function Hero() {
         className="hero-image"
         sizes="100vw"
       />
+      <HeroVideo />
       <div className="hero-overlay" />
       <div className="hero-content shell">
         <div>
