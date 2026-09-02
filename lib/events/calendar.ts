@@ -28,10 +28,17 @@ const loadCachedEvents = unstable_cache(
 );
 
 export async function getCalendarEvents(): Promise<EventItem[]> {
+  if (!process.env.NASHD_SHOWS_ICS_URL) return [];
+
   try {
-    return await loadCachedEvents();
+    return await getCalendarEventsStrict();
   } catch (error) {
     console.warn("Unable to refresh the NASH.D Shows calendar.", error instanceof Error ? error.message : "Unknown error");
     return [];
   }
+}
+
+export async function getCalendarEventsStrict(): Promise<EventItem[]> {
+  if (!process.env.NASHD_SHOWS_ICS_URL) throw new Error("NASH.D Shows calendar is not configured");
+  return loadCachedEvents();
 }

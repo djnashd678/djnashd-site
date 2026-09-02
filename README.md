@@ -45,6 +45,24 @@ use HTTP or HTTPS. Invalid or missing links are not displayed.
 The feed is revalidated approximately every 15 minutes. Keep the variable server-only—do not use a
 `NEXT_PUBLIC_` prefix.
 
+## Telegram show posts
+
+Vercel calls `/api/cron/show-reminder` once per day at `0 10 * * *` (10:00 UTC, or during the
+6 PM hour in Singapore on Vercel Hobby). The protected route checks the existing public NASH.D
+Shows feed and sends one combined Telegram channel post when an eligible show starts that Singapore
+calendar day. It sends nothing when there are no eligible shows.
+
+Configure these server-only Vercel environment variables:
+
+- `TELEGRAM_BOT_TOKEN`: token for the Telegram bot that can post to the channel
+- `TELEGRAM_CHANNEL_ID`: destination channel ID
+- `CRON_SECRET`: random secret used by Vercel as the cron request bearer token
+
+The route uses only the standard Telegram Bot API. Do not use `NEXT_PUBLIC_` prefixes for any of
+these values. Duplicate protection is intentionally limited to concurrent and repeated requests on
+the same warm server instance; it is not durable across cold starts, deployments, or parallel
+instances.
+
 ## Replace placeholders
 Search for:
 - hello@djnashd.com
