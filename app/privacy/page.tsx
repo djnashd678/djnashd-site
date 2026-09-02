@@ -17,7 +17,7 @@ export default function PrivacyPage() {
             NASH<span>.</span>D
           </Link>
           <h1>Privacy, clearly stated.</h1>
-          <p className="privacy-updated">Last updated 11 August 2026</p>
+          <p className="privacy-updated">Last updated 2 September 2026</p>
         </header>
 
         <div className="privacy-content">
@@ -88,11 +88,11 @@ export default function PrivacyPage() {
             </section>
 
             <section className="privacy-section">
-              <h3>No advertising or analytics tracking</h3>
+              <h3>Privacy-friendly analytics</h3>
               <p>
-                The site currently uses no Google Analytics, Google Tag Manager, Meta Pixel, TikTok
-                Pixel, Vercel Analytics, or equivalent visitor-tracking technology. It does not set
-                analytics or advertising cookies.
+                The site uses Cloudflare Web Analytics to measure aggregate page views and website
+                performance. It does not use analytics cookies or browser storage, and it is not
+                used to build advertising profiles or track individual visitors across websites.
               </p>
             </section>
 
