@@ -6,6 +6,13 @@ type TelegramEnvironment = {
 };
 type FetchImplementation = typeof fetch;
 
+export type TelegramMessage = {
+  text: string;
+  reply_markup?: {
+    inline_keyboard: { text: string; url: string }[][];
+  };
+};
+
 export class TelegramDeliveryError extends Error {
   constructor(reason: "configuration" | "network" | "response") {
     super(`Telegram delivery failed: ${reason}`);
@@ -25,7 +32,7 @@ export function hasTelegramConfiguration(environment: TelegramEnvironment = serv
 }
 
 export async function sendTelegramChannelMessage(
-  message: string,
+  message: TelegramMessage,
   fetchImplementation: FetchImplementation = fetch,
   environment: TelegramEnvironment = serverEnvironment()
 ): Promise<void> {
@@ -38,7 +45,12 @@ export async function sendTelegramChannelMessage(
     response = await fetchImplementation(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: channelId, text: message }),
+      body: JSON.stringify({
+        chat_id: channelId,
+        text: message.text,
+        parse_mode: "HTML",
+        reply_markup: message.reply_markup
+      }),
       cache: "no-store",
       signal: AbortSignal.timeout(TELEGRAM_TIMEOUT_MS)
     });

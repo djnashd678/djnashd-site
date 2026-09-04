@@ -1,6 +1,7 @@
 import { formatEventTimeRange } from "./events/display.ts";
 import { getUpcomingEvents } from "./events/selection.ts";
 import type { EventItem } from "./events/types.ts";
+import type { TelegramMessage } from "./telegram.ts";
 
 const WEBSITE_URL = "https://djnashd.com";
 const GENERIC_PHRASES = [
@@ -41,7 +42,7 @@ export type ShowReminderHandlerDependencies = {
   cronSecret?: string;
   telegramConfigured: boolean;
   loadEvents: () => Promise<EventItem[]>;
-  deliver: (message: string, date: string) => Promise<ReminderDeliveryStatus>;
+  deliver: (message: TelegramMessage, date: string) => Promise<ReminderDeliveryStatus>;
   now?: () => Date;
   logError?: (status: "calendar-error" | "telegram-error" | "configuration-error") => void;
 };
@@ -81,31 +82,50 @@ export function selectQuirkyPhrase(date: string, events: EventItem[]): string {
   return GENERIC_PHRASES[index];
 }
 
-function formatShow(event: EventItem): string {
-  const ctas = [
-    event.guestlistUrl ? `Guestlist \u2192 ${event.guestlistUrl}` : undefined,
-    event.ticketUrl ? `Tickets \u2192 ${event.ticketUrl}` : undefined,
-    event.reservationsUrl ? `Reserve a Table \u2192 ${event.reservationsUrl}` : undefined
-  ].filter((line): line is string => Boolean(line));
-
-  const details = [
-    event.name.trim().toLocaleUpperCase("en-SG"),
-    formatEventTimeRange(new Date(event.startDate), new Date(event.endDate)),
-    event.genre.trim()
-  ].join("\n");
-
-  return ctas.length ? `${details}\n\n${ctas.join("\n")}` : details;
+function escapeHtml(text: string): string {
+  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-export function formatShowReminderMessage(events: EventItem[], date: string): string {
-  const phrase = selectQuirkyPhrase(date, events);
-  const shows = events.map(formatShow).join("\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n");
-  return `TONIGHT \ud83d\ude80\n${phrase}\n\n${shows}\n\nMore info \u2192 ${WEBSITE_URL}`;
+function showTitle(event: EventItem): string {
+  return event.name.trim().toLocaleUpperCase("en-SG");
+}
+
+function formatShow(event: EventItem): string {
+  return [
+    showTitle(event),
+    formatEventTimeRange(new Date(event.startDate), new Date(event.endDate)),
+    event.genre.trim()
+  ].map(escapeHtml).join("\n");
+}
+
+export function formatShowReminderMessage(events: EventItem[], date: string): TelegramMessage {
+  const phrase = escapeHtml(selectQuirkyPhrase(date, events));
+  const shows = events.map(formatShow).join("\n\n──────────\n\n");
+  const inlineKeyboard = events.map((event) => {
+    const ctas = [
+      { url: event.guestlistUrl, single: "JOIN GUESTLIST", short: "GUESTLIST" },
+      { url: event.ticketUrl, single: "BUY TICKETS", short: "TICKETS" },
+      { url: event.reservationsUrl, single: "RESERVE A TABLE", short: "RESERVE A TABLE" }
+    ].filter((cta): cta is typeof cta & { url: string } => Boolean(cta.url));
+
+    return ctas.map((cta) => ({
+      // Keyboard labels are plain text; only the message body uses HTML.
+      text: events.length > 1
+        ? `${showTitle(event)} · ${cta.short}`
+        : ctas.length === 1 ? cta.single : cta.short,
+      url: cta.url
+    }));
+  }).filter((row) => row.length > 0);
+
+  return {
+    text: `TONIGHT 🚀\n${phrase}\n\n${shows}\n\nMore info → <a href="${WEBSITE_URL}">djnashd.com</a>`,
+    ...(inlineKeyboard.length ? { reply_markup: { inline_keyboard: inlineKeyboard } } : {})
+  };
 }
 
 export async function runShowReminder(
   events: EventItem[],
-  deliver: (message: string, date: string) => Promise<ReminderDeliveryStatus>,
+  deliver: (message: TelegramMessage, date: string) => Promise<ReminderDeliveryStatus>,
   now = new Date()
 ): Promise<ShowReminderResult> {
   const date = singaporeDateKey(now);
@@ -114,7 +134,7 @@ export async function runShowReminder(
 
   const message = formatShowReminderMessage(shows, date);
   const status = await deliver(message, date);
-  return { status, showCount: shows.length, date, message };
+  return { status, showCount: shows.length, date, message: message.text };
 }
 
 export async function handleShowReminderRequest(

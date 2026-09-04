@@ -1,7 +1,7 @@
 import "server-only";
 import { getCalendarEventsStrict } from "@/lib/events/calendar";
 import { handleShowReminderRequest, type ReminderDeliveryStatus } from "@/lib/show-reminder";
-import { hasTelegramConfiguration, sendTelegramChannelMessage } from "@/lib/telegram";
+import { hasTelegramConfiguration, sendTelegramChannelMessage, type TelegramMessage } from "@/lib/telegram";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -9,7 +9,7 @@ export const revalidate = 0;
 const deliveredDates = new Set<string>();
 const deliveriesInFlight = new Map<string, Promise<void>>();
 
-async function deliverOnce(message: string, date: string): Promise<ReminderDeliveryStatus> {
+async function deliverOnce(message: TelegramMessage, date: string): Promise<ReminderDeliveryStatus> {
   if (deliveredDates.has(date)) return "already-sent";
 
   const existingDelivery = deliveriesInFlight.get(date);
