@@ -1,4 +1,4 @@
-import { Instagram } from "lucide-react";
+import { Instagram, Send } from "lucide-react";
 
 export default function Follow() {
   return (
@@ -11,6 +11,11 @@ export default function Follow() {
         <a className="feature-link" href="https://instagram.com/djnashd" target="_blank" rel="noopener noreferrer">
           <Instagram size={24} aria-hidden="true" />
           <div><strong>Instagram</strong><span>@djnashd</span></div>
+          <span>{"\u2197\uFE0E"}</span>
+        </a>
+        <a className="feature-link" href="https://t.me/nashdhq" target="_blank" rel="noopener noreferrer">
+          <Send size={24} aria-hidden="true" />
+          <div><strong>Telegram</strong><span>@nashdhq</span></div>
           <span>{"\u2197\uFE0E"}</span>
         </a>
       </div>
