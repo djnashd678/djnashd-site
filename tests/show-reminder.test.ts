@@ -174,12 +174,13 @@ test("sends HTML and the inline keyboard to the configured channel with previews
     assert.deepEqual(JSON.parse(String(init?.body)), {
       chat_id: "test-channel", text: message.text, parse_mode: "HTML", reply_markup: message.reply_markup
     });
-    return new Response('{"ok":true}', { status: 200 });
+    return new Response('{"ok":true,"result":{"message_id":789}}', { status: 200 });
   };
-  await sendTelegramChannelMessage(message, captureFetch, {
+  const result = await sendTelegramChannelMessage(message, captureFetch, {
     TELEGRAM_BOT_TOKEN: " test-token ", TELEGRAM_CHANNEL_ID: " test-channel "
   });
   assert.equal(calls, 1);
+  assert.deepEqual(result, { messageId: 789 });
 });
 
 test("rejects an unauthorized cron request before loading events", async () => {

@@ -13,6 +13,10 @@ export type TelegramMessage = {
   };
 };
 
+export type TelegramSendResult = {
+  messageId?: number;
+};
+
 export class TelegramDeliveryError extends Error {
   constructor(reason: "configuration" | "network" | "response") {
     super(`Telegram delivery failed: ${reason}`);
@@ -35,7 +39,7 @@ export async function sendTelegramChannelMessage(
   message: TelegramMessage,
   fetchImplementation: FetchImplementation = fetch,
   environment: TelegramEnvironment = serverEnvironment()
-): Promise<void> {
+): Promise<TelegramSendResult> {
   const token = environment.TELEGRAM_BOT_TOKEN?.trim();
   const channelId = environment.TELEGRAM_CHANNEL_ID?.trim();
   if (!token || !channelId) throw new TelegramDeliveryError("configuration");
@@ -59,4 +63,19 @@ export async function sendTelegramChannelMessage(
   }
 
   if (!response.ok) throw new TelegramDeliveryError("response");
+
+  try {
+    const body: unknown = await response.json();
+    if (typeof body === "object" && body !== null && "result" in body) {
+      const result = body.result;
+      if (typeof result === "object" && result !== null && "message_id" in result) {
+        const messageId = result.message_id;
+        if (typeof messageId === "number" && Number.isSafeInteger(messageId)) return { messageId };
+      }
+    }
+  } catch {
+    // A successful Telegram response without a readable result is still a successful delivery.
+  }
+
+  return {};
 }
