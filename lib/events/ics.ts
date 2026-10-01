@@ -99,6 +99,7 @@ function formatEvent(uid: string, properties: Map<string, Property>): EventItem 
     day: dayFormatter.format(start),
     time: formatEventTimeRange(start, end),
     featured: metadata.featured,
+    ...(metadata.admission ? { admission: metadata.admission } : {}),
     ...(metadata.featureFrom ? { featureFrom: metadata.featureFrom } : {}),
     ...(metadata.guestlistUrl ? { guestlistUrl: metadata.guestlistUrl } : {}),
     ...(metadata.ticketUrl ? { ticketUrl: metadata.ticketUrl } : {}),

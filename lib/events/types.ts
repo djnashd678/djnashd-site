@@ -12,6 +12,7 @@ export type EventItem = {
   ticketUrl?: string;
   guestlistUrl?: string;
   reservationsUrl?: string;
+  admission?: "free";
   featured: boolean;
   featureFrom?: string;
   publishFrom?: string;
@@ -25,6 +26,7 @@ export type EventMetadata = {
   ticketUrl?: string;
   guestlistUrl?: string;
   reservationsUrl?: string;
+  admission?: "free";
   featured: boolean;
   featureFrom?: string;
   publishFrom?: string;

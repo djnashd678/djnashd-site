@@ -21,7 +21,7 @@ export default function Events({ events, anchor = false }: { events: EventItem[]
             </div>
             <div className="event-card-footer">
               <EventLocation location={event.location} fallback={event.venue} label={event.venue} />
-              {event.ticketUrl || event.guestlistUrl || event.reservationsUrl ? (
+              {event.admission === "free" || event.ticketUrl || event.guestlistUrl || event.reservationsUrl ? (
                 <span className="event-card-actions"><EventActions event={event} compact /></span>
               ) : null}
             </div>

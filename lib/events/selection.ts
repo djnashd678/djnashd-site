@@ -1,7 +1,7 @@
 import type { EventItem } from "./types.ts";
 
 export function getUpcomingEvents(events: EventItem[], now = new Date()): EventItem[] {
-  return events
+  return [...new Map(events.map((event) => [event.id, event])).values()]
     .filter((event) =>
       new Date(event.endDate).getTime() > now.getTime()
       && (!event.publishFrom || new Date(event.publishFrom).getTime() <= now.getTime())
@@ -15,7 +15,7 @@ export function selectFeaturedEvent(events: EventItem[], now = new Date()): Even
 
 export function selectFeaturedEvents(events: EventItem[], now = new Date()): EventItem[] {
   const timestamp = now.getTime();
-  return events
+  return getUpcomingEvents(events, now)
     .filter((event) =>
       event.featured
       && (!event.publishFrom || new Date(event.publishFrom).getTime() <= timestamp)

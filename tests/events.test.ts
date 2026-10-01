@@ -5,6 +5,7 @@ import { parseEventMetadata } from "../lib/events/metadata.ts";
 import { getUpcomingEvents, selectFeaturedEvent, selectFeaturedEvents } from "../lib/events/selection.ts";
 import { formatEventTimeRange, googleMapsUrl, shouldShowSecondaryVenue } from "../lib/events/display.ts";
 import type { EventItem } from "../lib/events/types.ts";
+import { applyWebsiteEventCorrections } from "../lib/events/website.ts";
 import { decodeHtmlEntities } from "../lib/events/text.ts";
 
 function calendar(eventLines: string[]): string {
@@ -147,4 +148,57 @@ test("selects every eligible featured event in chronological order", () => {
 test("throws for a structurally invalid source and accepts an empty calendar", () => {
   assert.throws(() => parseCalendarIcs("not a calendar"));
   assert.deepEqual(parseCalendarIcs(calendar([])), []);
+});
+
+test("reads inline and wrapped October calendar metadata without changing URLs", () => {
+  const halloween = parseEventMetadata("<p>[NASHD] genre: Open Format / Hip-Hop / R&amp;B / Top 40&#x27;s / EDM venue: Marquee\nSingapore tickets: https://marquee.bigtix.io/en/events/halloween-hotel-delirium/MQ261X31 publish-from:\n2026-10-01T00:00:00+08:00 [/NASHD]</p>");
+  assert.equal(halloween?.venue, "Marquee Singapore");
+  assert.equal(halloween?.ticketUrl, "https://marquee.bigtix.io/en/events/halloween-hotel-delirium/MQ261X31");
+  assert.equal(halloween?.guestlistUrl, undefined);
+  assert.equal(halloween?.publishFrom, "2026-09-30T16:00:00.000Z");
+  const guestlist = "https://docs.google.com/forms/d/e/example/viewform?usp=pp_url&entry.483686131=Astrolab%20-%2017%20Oct%202026";
+  const astrolab = parseEventMetadata(`[NASHD]\ngenre: Mainstage EDM\nvenue: Marquee Singapore\nguestlist: ${guestlist}\ntickets: https://marquee.bigtix.io/en/events/MQ261X17\nfeatured: true\n[/NASHD]`);
+  assert.equal(astrolab?.guestlistUrl, guestlist);
+  assert.equal(astrolab?.ticketUrl, "https://marquee.bigtix.io/en/events/MQ261X17");
+});
+
+test("retains featured events once in upcoming listings and expires September features", () => {
+  const october = item("october", "2026-10-10T14:00:00Z", "2026-10-10T19:00:00Z", true);
+  const september = item("september", "2026-09-12T14:00:00Z", "2026-09-12T19:00:00Z", true);
+  const events = [october, september, october];
+  const now = new Date("2026-10-02T00:00:00+08:00");
+  assert.deepEqual(getUpcomingEvents(events, now).map(e => e.id), ["october"]);
+  assert.deepEqual(selectFeaturedEvents(events, now).map(e => e.id), ["october"]);
+});
+
+test("keeps a calendar guestlist URL when it starts on a continuation line", () => {
+  const guestlist = "https://docs.google.com/forms/d/e/example/viewform?usp=pp_url&entry.483686131=Baes%20%E2%80%94%2005%20Oct%202026";
+  const metadata = parseEventMetadata(`<p>[NASHD]\ngenre: Hip-Hop / R&amp;B\nvenue: Baes\nguestlist:\n${guestlist}\npublish-from: 2026-10-01T00:00:00+08:00\n[/NASHD]</p>`);
+  assert.equal(metadata?.guestlistUrl, guestlist);
+  assert.equal(new URL(metadata!.guestlistUrl!).searchParams.get("entry.483686131"), "Baes — 05 Oct 2026");
+});
+
+test("retains free admission from calendar metadata through ICS parsing", () => {
+  const lines = event().map(line => line.startsWith("DESCRIPTION:")
+    ? "DESCRIPTION:[NASHD]\\ngenre: Hip-Hop / R&B\\nvenue: Kossa\\nadmission: free\\n[/NASHD]"
+    : line);
+  const [show] = parseCalendarIcs(calendar(lines));
+  assert.equal(show.admission, "free");
+  assert.equal(show.ticketUrl, undefined);
+  assert.equal(show.guestlistUrl, undefined);
+});
+
+
+test("applies only the requested October website corrections without mutating calendar records", () => {
+  const baes = { ...item("show-c7942b5942698d80a027", "2026-10-05T15:00:00Z", "2026-10-05T19:00:00Z"), name: "Baes — 11PM Till Late", time: "11:00 PM — LATE", guestlistUrl: "https://example.com/october-5" };
+  const lulu = item("show-ef38862e95685f650a05", "2026-10-15T14:00:00Z", "2026-10-15T19:00:00Z");
+  const other = { ...item("other", "2026-11-15T14:00:00Z", "2026-11-15T19:00:00Z"), name: "Lulu's Lounge" };
+  const shows = applyWebsiteEventCorrections([baes, lulu, other]);
+  assert.deepEqual(shows.map(show => show.id), [baes.id, other.id]);
+  assert.equal(shows[0].name, "Baes");
+  assert.equal(shows[0].time, "11 PM till late");
+  assert.equal(shows[0].guestlistUrl, baes.guestlistUrl);
+  assert.equal(baes.name, "Baes — 11PM Till Late");
+  assert.equal(baes.time, "11:00 PM — LATE");
+  assert.equal(shows[1], other);
 });

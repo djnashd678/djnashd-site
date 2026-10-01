@@ -10,8 +10,6 @@ import { artistWebsiteJsonLd, serializeJsonLd } from "@/lib/structured-data";
 export default async function Home() {
   const events = getUpcomingEvents(await getCalendarEvents());
   const featuredEvents = selectFeaturedEvents(events);
-  const featuredIds = new Set(featuredEvents.map((event) => event.id));
-  const remainingEvents = events.filter((event) => !featuredIds.has(event.id));
 
   return (
     <>
@@ -22,7 +20,7 @@ export default async function Home() {
       <main>
         <Hero />
         {featuredEvents.length ? <NextShow events={featuredEvents} /> : null}
-        <Events events={remainingEvents} anchor={!featuredEvents.length} />
+        <Events events={events} anchor={!featuredEvents.length} />
         <Follow />
         <Bookings />
       </main>

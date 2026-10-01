@@ -2,6 +2,8 @@ import type { EventItem } from "@/lib/events/types";
 import EventCta from "@/components/EventCta";
 
 export default function EventActions({ event, compact = false }: { event: EventItem; compact?: boolean }) {
+  if (event.admission === "free") return <span className="eyebrow">FREE ENTRY</span>;
+
   const primary = compact ? "" : "button primary";
   const secondary = compact ? "" : "button secondary";
 

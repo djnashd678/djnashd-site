@@ -1,5 +1,6 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
+import { applyWebsiteEventCorrections } from "./website.ts";
 import { parseCalendarIcs } from "./ics.ts";
 export { getUpcomingEvents, selectFeaturedEvent, selectFeaturedEvents } from "./selection.ts";
 import type { EventItem } from "./types.ts";
@@ -23,7 +24,7 @@ const loadCachedEvents = unstable_cache(
     if (!response.ok) throw new Error(`Calendar request failed with status ${response.status}`);
     return parseCalendarIcs(await response.text());
   },
-  ["nashd-shows-calendar-v2"],
+  ["nashd-shows-calendar-v3"],
   { revalidate: REVALIDATE_SECONDS }
 );
 
@@ -31,7 +32,7 @@ export async function getCalendarEvents(): Promise<EventItem[]> {
   if (!process.env.NASHD_SHOWS_ICS_URL) return [];
 
   try {
-    return await getCalendarEventsStrict();
+    return applyWebsiteEventCorrections(await getCalendarEventsStrict());
   } catch (error) {
     console.warn("Unable to refresh the NASH.D Shows calendar.", error instanceof Error ? error.message : "Unknown error");
     return [];
