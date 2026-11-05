@@ -9,9 +9,7 @@ const REVALIDATE_SECONDS = 15 * 60;
 const FETCH_TIMEOUT_MS = 5_000;
 
 const loadCachedEvents = unstable_cache(
-  async (): Promise<EventItem[]> => {
-    const calendarUrl = process.env.NASHD_SHOWS_ICS_URL;
-    if (!calendarUrl) return [];
+  async (calendarUrl: string): Promise<EventItem[]> => {
 
     const url = new URL(calendarUrl);
     if (url.protocol !== "https:") throw new Error("Calendar URL must use HTTPS");
@@ -24,15 +22,24 @@ const loadCachedEvents = unstable_cache(
     if (!response.ok) throw new Error(`Calendar request failed with status ${response.status}`);
     return parseCalendarIcs(await response.text());
   },
-  ["nashd-shows-calendar-v3"],
+  ["nashd-shows-calendar-v4"],
   { revalidate: REVALIDATE_SECONDS }
 );
 
 export async function getCalendarEvents(): Promise<EventItem[]> {
-  if (!process.env.NASHD_SHOWS_ICS_URL) return [];
-
+  const publicFeed = "https://calendar.google.com/calendar/ical/5e1935f84a5e721272576df9982ca333495823831936481c80d3a631234ec36d%40group.calendar.google.com/public/basic.ics";
   try {
-    return applyWebsiteEventCorrections(await getCalendarEventsStrict());
+    if (process.env.NASHD_SHOWS_ICS_URL) {
+      try {
+        const configured = await getCalendarEventsStrict();
+        if (configured.some(event => Date.parse(event.endDate) > Date.now())) {
+          return applyWebsiteEventCorrections(configured);
+        }
+      } catch {
+        console.warn("Using the public NASH.D Shows feed for the website.");
+      }
+    }
+    return applyWebsiteEventCorrections(await loadCachedEvents(publicFeed));
   } catch (error) {
     console.warn("Unable to refresh the NASH.D Shows calendar.", error instanceof Error ? error.message : "Unknown error");
     return [];
@@ -41,5 +48,5 @@ export async function getCalendarEvents(): Promise<EventItem[]> {
 
 export async function getCalendarEventsStrict(): Promise<EventItem[]> {
   if (!process.env.NASHD_SHOWS_ICS_URL) throw new Error("NASH.D Shows calendar is not configured");
-  return loadCachedEvents();
+  return loadCachedEvents(process.env.NASHD_SHOWS_ICS_URL);
 }

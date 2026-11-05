@@ -7,6 +7,8 @@ import Footer from "@/components/Footer";
 import { getCalendarEvents, getUpcomingEvents, selectFeaturedEvents } from "@/lib/events/calendar";
 import { artistWebsiteJsonLd, serializeJsonLd } from "@/lib/structured-data";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const events = getUpcomingEvents(await getCalendarEvents());
   const featuredEvents = selectFeaturedEvents(events);
